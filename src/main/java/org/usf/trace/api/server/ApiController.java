@@ -1,15 +1,22 @@
 package org.usf.trace.api.server;
 
-import lombok.RequiredArgsConstructor;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.usf.trace.api.server.Utils.requireSingle;
 
+import java.util.List;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.usf.traceapi.core.IncomingRequest;
 import org.usf.traceapi.core.OutcomingRequest;
 
-import java.util.List;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.usf.trace.api.server.Utils.requireSingle;
+import lombok.RequiredArgsConstructor;
 
 @CrossOrigin
 @RestController

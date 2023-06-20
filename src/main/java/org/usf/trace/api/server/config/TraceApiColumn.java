@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.function.Function;
 
-import static org.usf.jquery.core.DBFunction.count;
+import static org.usf.jquery.core.DBColumn.count;
 
 @RequiredArgsConstructor
 public enum TraceApiColumn implements ColumnDecorator {

@@ -22,18 +22,17 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class PerformanecStatsController {
 
-
     private final JdbcTemplate template;
 
     @GetMapping("incoming/request")
     public List<DynamicModel> stats(
-            @RequestQueryParam(name = "INCOMING_REQUEST_TABLE", defaultColumns = "STATUS") RequestQuery query) {
+            @RequestQueryParam(name = "INC_REQ", defaultColumns = "STATUS") RequestQuery query) {
         return query.execute(this::usingSpringJdbc);
     }
 
     private List<DynamicModel> usingSpringJdbc(ParametredQuery query) {
         return query.hasNoResult()
                 ? emptyList()
-                : template.query(query.getQuery(), query::mapRows, query.getParams());
+                : template.query(query.getQuery(), query.defaultMapper()::map, query.getParams());
     }
 }

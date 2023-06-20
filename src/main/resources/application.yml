@@ -12,3 +12,7 @@ spring:
     console:
       enabled: true
       path: /h2
+logging:
+  level:
+    org.springframework.jdbc.core: DEBUG
+    org.usf.jquery.core: DEBUG

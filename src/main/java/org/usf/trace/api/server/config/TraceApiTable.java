@@ -1,31 +1,23 @@
 package org.usf.trace.api.server.config;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import java.util.function.Function;
+
 import org.usf.jquery.web.ColumnDecorator;
 import org.usf.jquery.web.TableDecorator;
 
-import java.util.function.Function;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum TraceApiTable implements TableDecorator {
 
+    INC_REQ("E_IN_REQ", DataConstants::incReqColumns);
 
-    INCOMING_REQUEST_TABLE("TEST", DataConstants::incReqColumns);
-
-    @NonNull
     private final String tableName;
-    @NonNull
     private final Function<TraceApiColumn, String> columnMap;
 
     @Override
     public String identity() {
         return name();
-    }
-
-    @Override
-    public String reference() {
-        return tableName;
     }
 
     @Override

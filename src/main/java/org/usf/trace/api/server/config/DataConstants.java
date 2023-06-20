@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
 import java.time.Instant;
 
-import static org.usf.jquery.core.DBComparator.*;
-import static org.usf.jquery.core.DBFunction.*;
+import static org.usf.jquery.core.ComparisonExpression.*;
+import static org.usf.jquery.core.DBColumn.*;
 import static org.usf.trace.api.server.config.TraceApiColumn.ACTION;
 import static org.usf.trace.api.server.config.TraceApiColumn.STATUS;
 
