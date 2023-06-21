@@ -42,21 +42,13 @@ public class ApiController {
 
     public ApiController(RequestDao dao, TraceConfigProperties prop) {
         this.dao = dao;
-        this.future = executor.scheduleWithFixedDelay(() -> {
-        	if(!queue.isEmpty()) {
-                var list = new LinkedList<IncomingRequest>();
-                var size = queue.drainTo(list);
-                log.info("inserting {} incoming requests to database", size);
-                dao.addIncomingRequest(list);
-                log.info("Queue cleared");
-            }
-        }, 0, prop.getPeriod(), TimeUnit.valueOf(prop.getTimeUnit()));  // conf
+        this.future = executor.scheduleWithFixedDelay(this::safeBackup, 0, prop.getPeriod(), TimeUnit.valueOf(prop.getTimeUnit()));  // conf
     }
 
     @PutMapping("incoming/request")
     public ResponseEntity<Void> saveRequest(@RequestBody IncomingRequest req) {
         queue.add(req);
-        log.info("added incoming request to queue. (queue size: {})", queue.size());
+        log.info("new request added to the queue : {} requests", queue.size());
         return new ResponseEntity<>(CREATED);
     }
 
@@ -80,6 +72,19 @@ public class ApiController {
     @GetMapping("incoming/request/{id}/tree") //LATER
     public IncomingRequest getIncomingRequestTreeById(@PathVariable String id) {
         return requireSingle(dao.getIncomingRequestById(true, id)); //change query
+    }
+    
+    private void safeBackup() {
+    	if(!queue.isEmpty()) {
+	    	try {
+		        var list = new LinkedList<IncomingRequest>();
+		        log.info("scheduled data queue backup : {} requests", queue.drainTo(list));
+		        dao.addIncomingRequest(list);
+	    	}
+	    	catch (Exception e) {
+	    		log.error("bachup failed", e);
+			}
+    	}
     }
 
 }
