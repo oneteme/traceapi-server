@@ -40,9 +40,9 @@ public class ApiController {
     private final BlockingQueue<IncomingRequest> queue = new LinkedBlockingQueue<>();
     private final ScheduledFuture<?> future;
 
-    public ApiController(RequestDao dao, TraceConfigProperties prop) {
+    public ApiController(RequestDao dao, ScheduleProperties prop) {
         this.dao = dao;
-        this.future = executor.scheduleWithFixedDelay(this::safeBackup, 0, prop.getPeriod(), TimeUnit.valueOf(prop.getTimeUnit()));  // conf
+        this.future = executor.scheduleWithFixedDelay(this::safeBackup, 0, prop.getPeriod(), TimeUnit.valueOf(prop.getUnit()));
     }
 
     @PutMapping("incoming/request")
