@@ -2,6 +2,9 @@ package org.usf.trace.api.server;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.usf.trace.api.server.Utils.requireSingle;
+import static org.usf.traceapi.core.RemoteTraceSender.INCOMING_ENDPOINT;
+import static org.usf.traceapi.core.RemoteTraceSender.OUTCOMING_ENDPOINT;
+import static org.usf.traceapi.core.RemoteTraceSender.TRACE_ENDPOINT;
 
 import java.util.List;
 
@@ -32,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @CrossOrigin
 @RestController
-@RequestMapping(value = "trace", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = TRACE_ENDPOINT, produces = APPLICATION_JSON_VALUE)
 public class ApiController {
 	
     private final RequestDao dao;
@@ -45,9 +48,17 @@ public class ApiController {
         this.future = executor.scheduleWithFixedDelay(this::safeBackup, 0, prop.getPeriod(), TimeUnit.valueOf(prop.getUnit()));
     }
 
-    @PutMapping("incoming/request")
+    @PutMapping(INCOMING_ENDPOINT)
     public ResponseEntity<Void> saveRequest(@RequestBody IncomingRequest req) {
         queue.add(req);
+        log.info("new request added to the queue : {} requests", queue.size());
+        return new ResponseEntity<>(CREATED);
+    }
+    
+    //TODO save 
+    @PutMapping(OUTCOMING_ENDPOINT) //main request
+    public ResponseEntity<Void> saveRequest(@RequestBody OutcomingRequest req) {
+//        queue.add(req);
         log.info("new request added to the queue : {} requests", queue.size());
         return new ResponseEntity<>(CREATED);
     }
