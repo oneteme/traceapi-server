@@ -8,16 +8,17 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+    #data: classpath:data-h2.sql
   h2:
     console:
       enabled: true
       path: /h2
 
-trace:
-  period: 1
-  unit: MINUTES
-
 logging:
   level:
     org.springframework.jdbc.core: DEBUG
     org.usf.jquery.core: DEBUG
+
+trace:
+  period: 1
+  unit: MINUTES
