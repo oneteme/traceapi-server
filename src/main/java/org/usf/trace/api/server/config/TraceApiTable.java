@@ -5,13 +5,15 @@ import java.util.function.Function;
 import org.usf.jquery.web.ColumnDecorator;
 import org.usf.jquery.web.TableDecorator;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum TraceApiTable implements TableDecorator {
+    
+	INCOMING_REQUEST_TABLE("E_IN_REQ", DataConstants::incReqColumns);
 
-    INC_REQ("E_IN_REQ", DataConstants::incReqColumns);
-
+    @NonNull
     private final String tableName;
     private final Function<TraceApiColumn, String> columnMap;
 
